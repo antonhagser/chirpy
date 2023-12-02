@@ -55,6 +55,23 @@ export default function MessageHolder({
         }
     }, [setHasMore, hasMore, messages, addMessages, selectedConversationId]);
 
+    const [isLoading, setIsLoading] = useState(false);
+    const loadMoreMessages = useCallback(async () => {
+        if (isLoading) {
+            return;
+        }
+
+        setIsLoading(true);
+
+        try {
+            await loadMore();
+        } catch (_) {
+            console.error("Failed to load more messages");
+        }
+
+        setIsLoading(false);
+    }, [isLoading, loadMore]);
+
     useEffect(() => {
         loadMore();
     }, [loadMore]);
@@ -64,7 +81,7 @@ export default function MessageHolder({
             <InfiniteScroll
                 dataLength={messages.get(selectedConversationId)?.length ?? 0}
                 className={styles.holderScroller}
-                next={loadMore}
+                next={loadMoreMessages}
                 hasMore={hasMore.get(selectedConversationId) ?? false}
                 loader={<h4>Loading...</h4>}
                 scrollableTarget={"scrollableDiv"}
