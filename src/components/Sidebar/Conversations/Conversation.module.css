@@ -1,0 +1,128 @@
+.conversationListItem {
+    max-width: 100%;
+    width: 100%;
+}
+
+.conversation {
+    background-color: var(--background-lightest);
+    border-radius: 4px;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    transition: background-color border-left 0.3s;
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--text-light);
+}
+
+.selected {
+    border-left: 4px solid var(--primary);
+    background-color: var(--background-lightest-hover);
+}
+
+.conversation:hover:not(.selected) {
+    background-color: var(--background-lightest-hover);
+}
+
+.aboutConversation {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    flex-grow: 1;
+    overflow: hidden; /* Prevents overflow */
+}
+
+.conversationProfile {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.conversationAvatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.conversationAvatarImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.userPresence {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 14px;
+    height: 14px;
+}
+
+.userPresenceOnline {
+    fill: var(--success);
+}
+
+.userPresenceOffline {
+    fill: var(--alert);
+}
+
+.userPresenceIdle {
+    fill: var(--warning);
+}
+
+.conversationInfo {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    min-width: 0; /* Important for handling text overflow */
+}
+
+.conversationName {
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--text-light);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.conversationMessage {
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: var(--text-dark);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.unselectable {
+    user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
+}
+
+.conversationUnread {
+    background-color: var(--primary);
+    color: var(--background-lightest);
+    border-radius: 12px;
+    height: 22px;
+    min-width: 22px;
+    padding: 0 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.conversationUnreadCount {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--text-light);
+}

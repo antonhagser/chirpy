@@ -1,0 +1,69 @@
+.input {
+    width: 100%;
+}
+
+.inputForm {
+    width: 100%;
+
+    padding: 1rem;
+
+    display: flex;
+    flex-direction: row;
+
+    gap: 1rem;
+}
+
+.inputInner {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+    flex-grow: 1;
+    padding: 1rem;
+    border-radius: 3rem;
+    background-color: #fff;
+
+    height: 2.8rem;
+
+    border: 1px solid #3425;
+}
+
+.inputInner:focus {
+    border: 1px solid #007bff;
+    outline: none;
+}
+
+.sendButton {
+    padding: 0.5rem;
+    border-radius: 100%;
+
+    width: 2.8rem;
+    height: 2.8rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+}
+
+.spinner {
+    display: inline-block;
+    border: 2px solid rgba(255, 255, 255, 0.3); /* Lighter border for the spinner */
+    border-top: 2px solid white; /* Top border to create the spinning effect */
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

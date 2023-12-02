@@ -1,0 +1,52 @@
+.message {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    max-width: 60%;
+    text-wrap: wrap;
+
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 20px;
+    background-color: #f4f4f4;
+
+    font-family: "Open Sans" !important;
+    font-size: 0.9rem;
+    padding-left: 16px;
+    padding-right: 16px;
+    word-wrap: break-word;
+}
+
+.incoming {
+    align-self: flex-start;
+
+    background-color: #e9e9eb;
+    color: #242424;
+}
+
+.outgoing {
+    align-self: flex-end;
+
+    background-color: #007bff;
+    color: #fff;
+}
+
+.messageWithOnlyEmoji {
+    background-color: transparent;
+    padding-left: 0;
+    padding-right: 0;
+
+    border-radius: 0;
+
+    padding: 0;
+}
+
+.onlyEmoji {
+    font-size: 3rem;
+}
+
+/* If message > p > span has .onlyEmoji, then remove background of message */
+.message > p > span.onlyEmoji {
+    background-color: transparent;
+}

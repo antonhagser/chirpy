@@ -1,0 +1,6 @@
+.splitLayout {
+    display: grid;
+    grid-template-columns: 360px 5fr;
+
+    height: 100%;
+}
