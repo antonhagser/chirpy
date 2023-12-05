@@ -1,3 +1,5 @@
+import { getAuthBackendURL, getBackendURL } from "@/utils";
+
 export interface SessionPayload {
     id: string;
     username: string;
@@ -10,7 +12,7 @@ export async function validateSession(
 
     // Currently always does a call and validates the token on the server, but could be changed to a JWT public key endpoint
     // and then validated on the client
-    const response = await fetch(" https://messaging-negotiate-func-dev.azurewebsites.net/api/verify", {
+    const response = await fetch(new URL("api/httpVerify", getAuthBackendURL()), {
         method: "GET",
         headers: {
             Authorization: `Bearer ${sessionToken}`,
@@ -18,6 +20,7 @@ export async function validateSession(
     });
 
     if (!response.ok) {
+        console.log("Invalid session token");
         throw new Error("Invalid session");
     }
 

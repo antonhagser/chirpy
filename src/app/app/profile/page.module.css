@@ -1,0 +1,101 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.header {
+    font-size: 2em;
+    color: var(--text-dark);
+    margin-bottom: 20px;
+}
+
+.avatar {
+    border-radius: 50%;
+    margin-bottom: 20px;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 600px;
+    background: #f5f5f5; /* light gray */
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.fileBrowser {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 20px;
+    background: #ffffff; /* white */
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.inputFile {
+    display: none;
+}
+
+.browseButton {
+    background-color: #e0e0e0; /* light gray */
+    color: #333333; /* dark gray */
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition:
+        background-color 0.3s ease,
+        color 0.3s ease;
+    font-size: 1em;
+    font-weight: 500;
+    border-radius: 5px;
+}
+
+.browseButton:hover {
+    background-color: #d0d0d0; /* slightly darker gray */
+    color: #333333; /* dark gray */
+}
+
+.browseButton:active {
+    background-color: #c0c0c0; /* even darker gray */
+    color: #333333; /* dark gray */
+}
+
+.fileName {
+    margin-left: 10px;
+    font-size: 1em;
+    color: #333333; /* dark gray */
+}
+
+.submit {
+    background-color: var(--primary);
+    color: var(--text-light);
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1em;
+    font-weight: 500;
+    border-radius: 5px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.submit:hover {
+    background-color: var(--primary-hover);
+}
+
+.submit:active {
+    background-color: var(--primary-active);
+}
+
+.error {
+    color: var(--error);
+    margin-top: 10px;
+}

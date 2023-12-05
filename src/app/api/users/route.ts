@@ -1,4 +1,5 @@
 import { getServerSession } from "@/auth/server";
+import { getBackendURL } from "@/utils";
 import { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -15,7 +16,7 @@ export async function GET(request: NextRequest) {
     }
 
     let response = await fetch(
-        ` https://messaging-negotiate-func-dev.azurewebsites.net/api/users?query=${inputValue}`,
+        new URL(`api/users?query=${inputValue}`, getBackendURL()),
         {
             method: "GET",
             headers: {

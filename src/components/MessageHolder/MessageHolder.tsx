@@ -1,15 +1,16 @@
 "use client";
 
 import clsx from "clsx";
+import { useCallback, useEffect, useState } from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 import styles from "./MessageHolder.module.css";
 
-import { useChat } from "@/context/chat.context";
-import { paginateMessages } from "@/server/conversation";
-import { useCallback, useEffect, useState } from "react";
-import InfiniteScroll from "react-infinite-scroll-component";
-import Message from "../Message/Message";
 import { useAuth } from "@/context/auth.context";
+import { useChat } from "@/context/chat.context";
+import { MessageData } from "@/models/conversation";
+import { paginateMessages } from "@/server/conversation";
+import { AuthorMessages } from "../Message/Message";
 
 interface Props {
     className?: string;
@@ -20,13 +21,7 @@ export default function MessageHolder({
     className,
     selectedConversationId,
 }: Props) {
-    const {
-        messages,
-        addMessages,
-        hasMore,
-        setHasMore,
-        setSelectedConversationId,
-    } = useChat();
+    const { messages, addMessages, hasMore, setHasMore } = useChat();
     const { userId } = useAuth();
 
     const loadMore = useCallback(async () => {
@@ -87,16 +82,40 @@ export default function MessageHolder({
                 scrollableTarget={"scrollableDiv"}
                 endMessage={<></>}
             >
-                {messages
-                    .get(selectedConversationId)
-                    ?.map((message) => (
-                        <Message
-                            key={message.id}
-                            self={message}
-                            isIncoming={message.userId !== userId}
-                        />
-                    ))}
+                {groupMessagesByAuthor(
+                    messages.get(selectedConversationId) ?? []
+                ).map((group, index) => (
+                    <AuthorMessages
+                        key={index}
+                        username={group[0].username}
+                        messages={group}
+                        isGroupIncoming={group[0].userId !== userId}
+                    />
+                ))}
             </InfiniteScroll>
         </div>
     );
+}
+
+/**
+ * Groups messages by author
+ */
+function groupMessagesByAuthor(messages: MessageData[]): MessageData[][] {
+    const groupedMessages: MessageData[][] = [];
+
+    messages.forEach((message) => {
+        if (
+            groupedMessages.length > 0 &&
+            groupedMessages[groupedMessages.length - 1][0].userId ===
+                message.userId
+        ) {
+            // Add the message to the last group, preserving the original order
+            groupedMessages[groupedMessages.length - 1].push(message);
+        } else {
+            // Start a new group with the current message
+            groupedMessages.push([message]);
+        }
+    });
+
+    return groupedMessages;
 }

@@ -24,13 +24,17 @@ export default function Login() {
         if (!username) return;
         if (username.length < 3) return;
         if (username.length > 16) return;
-        if (!/^[a-z0-9]+$/.test(username)) return;
+        if (!/^[a-zA-Z0-9]+$/.test(username)) return;
+
+        const password = formData.get("password");
+        if (typeof password !== "string") return;
+        if (!password) return;
 
         setIsLoading(true);
 
         let loginResult: UserData;
         try {
-            loginResult = await login(username);
+            loginResult = await login(username, password);
         } catch (error) {
             setIsLoading(false);
             console.error(error);
@@ -59,6 +63,13 @@ export default function Login() {
                         name="username"
                         id="username"
                         placeholder="username"
+                    />
+                    <label htmlFor="password">Password</label>
+                    <input
+                        type="password"
+                        name="password"
+                        id="password"
+                        placeholder="password"
                     />
                     <button type="submit" className={styles.submit}>
                         {isLoading ? (

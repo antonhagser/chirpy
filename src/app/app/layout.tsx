@@ -10,6 +10,7 @@ import { getServerSession } from "@/auth/server";
 import { WSProvider } from "../../context/ws.context";
 import WSConnector from "@/components/WSConnector/WSConnector";
 import { MessageData } from "@/models/conversation";
+import { getBackendURL } from "@/utils";
 
 export const metadata: Metadata = {
     title: "Chirpy",
@@ -28,7 +29,7 @@ export default async function RootLayout({
         }
 
         const response = await fetch(
-            " https://messaging-negotiate-func-dev.azurewebsites.net/api/conversations",
+            new URL("api/conversations", getBackendURL()),
             {
                 method: "GET",
                 headers: {
@@ -38,6 +39,7 @@ export default async function RootLayout({
         );
 
         if (!response.ok) {
+            console.error("Failed to fetch conversations: ", response.status);
             throw new Error("Failed to fetch conversations");
         }
 
@@ -50,7 +52,7 @@ export default async function RootLayout({
             conversations.set(conversation.id, {
                 id: conversation.id,
                 name: conversation.name,
-                avatarURL: "/pfp.jpeg",
+                avatarURL: "/pfp.jpg",
                 presence: "online",
                 message: conversation?.message?.content,
                 unreadCount: 0,
@@ -69,12 +71,15 @@ export default async function RootLayout({
             return;
         }
 
-        const response = await fetch(" https://messaging-negotiate-func-dev.azurewebsites.net/api/negotiateWS", {
-            method: "GET",
-            headers: {
-                Authorization: `Bearer ${session.sessionToken}`,
-            },
-        });
+        const response = await fetch(
+            new URL("api/negotiateWS", getBackendURL()),
+            {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${session.sessionToken}`,
+                },
+            }
+        );
 
         if (!response.ok) {
             console.error("Failed to fetch conversations");
@@ -104,7 +109,9 @@ export default async function RootLayout({
                         <Header className={styles.header} />
                         <SplitLayout>
                             <Sidebar />
-                            <Content className={styles.content}>{children}</Content>
+                            <Content className={styles.content}>
+                                {children}
+                            </Content>
                         </SplitLayout>
                     </div>
                 </main>

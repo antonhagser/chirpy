@@ -2,6 +2,7 @@
 
 import { getServerSession } from "@/auth/server";
 import { ConversationData, MessageData } from "@/models/conversation";
+import { getBackendURL } from "@/utils";
 
 interface PaginateMessagesResponse {
     messages: MessageData[];
@@ -17,7 +18,7 @@ export async function paginateMessages(
 
     // Build URL
     let url = new URL(
-        ` https://messaging-negotiate-func-dev.azurewebsites.net/api/conversations/${conversationId}/messages`
+        new URL(`api/conversations/${conversationId}/messages`, getBackendURL())
     );
     url.searchParams.set("limit", limit.toString());
     if (lastMessageCreatedAt) {
@@ -58,7 +59,7 @@ export async function createConversation(members: string[]) {
     // Add self to members
     members.push(session.id);
 
-    const result = await fetch(" https://messaging-negotiate-func-dev.azurewebsites.net/api/conversations", {
+    const result = await fetch(new URL(`api/conversations`, getBackendURL()), {
         cache: "no-cache",
         method: "POST",
         headers: {
@@ -87,7 +88,10 @@ export async function sendMessage(conversationId: string, content: string) {
     }
 
     const result = await fetch(
-        ` https://messaging-negotiate-func-dev.azurewebsites.net/api/conversations/${conversationId}/messages`,
+        new URL(
+            `api/conversations/${conversationId}/messages`,
+            getBackendURL()
+        ),
         {
             cache: "no-cache",
             method: "POST",

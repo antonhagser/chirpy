@@ -27,7 +27,7 @@ export function HandleIncomingCONVERSATION_CREATED(
     const conv: ConversationState = {
         id: payload.id,
         name: payload.name,
-        avatarURL: "/pfp.jpeg",
+        avatarURL: "/pfp.jpg",
         presence: "online",
         message: "",
     };

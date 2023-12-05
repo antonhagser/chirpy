@@ -9,6 +9,7 @@ export interface MessageData {
     id: string;
     conversationId: string;
     userId: string;
+    username: string;
     content: string;
     createdAt: string;
     updatedAt: string;

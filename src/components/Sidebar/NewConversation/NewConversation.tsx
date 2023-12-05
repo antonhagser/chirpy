@@ -103,6 +103,7 @@ export default function NewConversation() {
         }
 
         setIsLoading(false);
+        setSelectedOptions([]);
     };
 
     return (

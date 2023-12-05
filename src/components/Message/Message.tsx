@@ -6,10 +6,12 @@ import { MessageData } from "@/models/conversation";
 
 import styles from "./Message.module.css";
 import { useEffect, useRef, useState } from "react";
+import { useAuth } from "@/context/auth.context";
 
 interface Props {
     self: MessageData;
     isIncoming: boolean;
+    nrInGroup?: number;
 }
 
 function isOnlyEmojis(str: string) {
@@ -17,7 +19,7 @@ function isOnlyEmojis(str: string) {
     return str === onlyEmojis;
 }
 
-export default function Message({ self, isIncoming }: Props) {
+export default function Message({ self, isIncoming, nrInGroup }: Props) {
     const [isEmojiOnly, setIsEmojiOnly] = useState(false);
     const messageRef = useRef<HTMLParagraphElement>(null);
 
@@ -41,7 +43,8 @@ export default function Message({ self, isIncoming }: Props) {
             className={clsx(styles.message, {
                 [styles.incoming]: isIncoming,
                 [styles.outgoing]: !isIncoming,
-                [styles.messageWithOnlyEmoji]: isEmojiOnly,
+                [styles.withOnlyEmoji]: isEmojiOnly,
+                [styles.firstInGroup]: (nrInGroup ?? 0) === 0,
             })}
         >
             <p ref={messageRef}>
@@ -55,3 +58,43 @@ export default function Message({ self, isIncoming }: Props) {
         </div>
     );
 }
+
+interface AuthorMessagesProps {
+    username: string;
+    messages: MessageData[];
+    isGroupIncoming: boolean;
+}
+
+export const AuthorMessages: React.FC<AuthorMessagesProps> = ({
+    username,
+    messages,
+    isGroupIncoming,
+}) => {
+    const { userId } = useAuth();
+
+    return (
+        <div
+            className={clsx(styles.group, {
+                [styles.groupIncoming]: isGroupIncoming,
+            })}
+        >
+            <div
+                className={clsx(styles.author, {
+                    [styles.authorIncoming]: isGroupIncoming,
+                })}
+            >
+                <p>{username}</p>
+            </div>
+            <div className={styles.groupedMessages}>
+                {messages.map((message, index) => (
+                    <Message
+                        key={message.id}
+                        self={message}
+                        isIncoming={message.userId !== userId}
+                        nrInGroup={index}
+                    />
+                ))}
+            </div>
+        </div>
+    );
+};

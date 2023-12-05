@@ -3,6 +3,7 @@
 import { SessionPayload, validateSession } from "@/server/session";
 import { cookies } from "next/headers";
 import { Session } from "./session";
+import { getAuthBackendURL, getBackendURL } from "@/utils";
 
 export async function getServerSession(): Promise<Session | null> {
     "use server";
@@ -35,26 +36,33 @@ export interface UserData {
     username: string;
 }
 
-export async function login(formUsername: string): Promise<UserData> {
+export async function login(
+    formUsername: string,
+    formPassword: string
+): Promise<UserData> {
     "use server";
 
     // Send the username to the backend
     // If the username is valid, set a cookie with the session token
     // If the username is invalid, throw an error
 
-    const response = await fetch(" https://messaging-negotiate-func-dev.azurewebsites.net/api/login", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            username: formUsername,
-        }),
-        cache: "no-cache",
-    });
+    const response = await fetch(
+        new URL("api/httpLogin", getAuthBackendURL()),
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                username: formUsername,
+                password: formPassword,
+            }),
+            cache: "no-cache",
+        }
+    );
 
     if (!response.ok) {
-        throw new Error("Invalid username: " + await response.text());
+        throw new Error("Invalid username: " + (await response.text()));
     }
 
     // Get the session token from the response
@@ -74,23 +82,27 @@ export async function login(formUsername: string): Promise<UserData> {
     };
 }
 
-export async function signup(formUsername: string): Promise<UserData> {
+export async function signup(formUsername: string, formPassword: string): Promise<UserData> {
     "use server";
 
     // Send the username to the backend
     // If the username is valid, set a cookie with the session token
     // If the username is invalid, throw an error
 
-    const response = await fetch(" https://messaging-negotiate-func-dev.azurewebsites.net/api/register", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            username: formUsername,
-        }),
-        cache: "no-cache",
-    });
+    const response = await fetch(
+        new URL("api/httpRegister", getAuthBackendURL()),
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                username: formUsername,
+                password: formPassword,
+            }),
+            cache: "no-cache",
+        }
+    );
 
     if (!response.ok) {
         throw new Error("Invalid username");

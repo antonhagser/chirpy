@@ -6,6 +6,7 @@ export const Z_WSPayloadCHAT_MESSAGE_RECEIVED = z.object({
     id: z.string().uuid(),
     conversationId: z.string().uuid(),
     userId: z.string().uuid(),
+    username: z.string(),
     content: z.string(),
     createdAt: z.string().refine((s) => !isNaN(Date.parse(s))),
     updatedAt: z.string().refine((s) => !isNaN(Date.parse(s))),

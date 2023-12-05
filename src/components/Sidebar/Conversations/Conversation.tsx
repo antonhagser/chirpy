@@ -4,6 +4,7 @@ import Image from "next/image";
 import styles from "./Conversation.module.css";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
 import Link from "next/link";
+import { Twemoji } from "react-emoji-render";
 
 interface Props {
     className?: string;
@@ -55,7 +56,7 @@ export default function ConversationItem({
                                 className={styles.conversationAvatarImage}
                             />
                         </div>
-                        <div
+                        {/* <div
                             className={clsx(
                                 styles.userPresence,
                                 presence == "online" &&
@@ -75,7 +76,7 @@ export default function ConversationItem({
                                     strokeWidth="3"
                                 />
                             </svg>
-                        </div>
+                        </div> */}
                     </div>
                     <div
                         className={clsx(
@@ -87,7 +88,14 @@ export default function ConversationItem({
                             {name}
                         </div>
                         <div className={clsx(styles.conversationMessage)}>
-                            {message}
+                            {message ? (
+                                <Twemoji
+                                    text={message}
+                                    options={{
+                                        ext: "png",
+                                    }}
+                                />
+                            ) : null}
                         </div>
                     </div>
                 </div>

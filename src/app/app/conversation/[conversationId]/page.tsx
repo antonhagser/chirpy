@@ -1,13 +1,11 @@
-"use client";
-
 import { redirect } from "next/navigation";
+
 import { isUUID } from "@/utils";
 
-import styles from "./page.module.css";
-import MessageHolder from "@/components/MessageHolder/MessageHolder";
 import Input from "@/components/Input/Input";
-import { useEffect } from "react";
-import { useChat } from "@/context/chat.context";
+import MessageHolder from "@/components/MessageHolder/MessageHolder";
+import styles from "./page.module.css";
+import ConversationUpdater from "@/components/ConversationUpdater/ConversationUpdater";
 
 const validateConversationId = (conversationId: string) => {
     if (!isUUID(conversationId)) {
@@ -22,23 +20,20 @@ export default function Conversation({
         conversationId: string;
     };
 }) {
-    const { setSelectedConversationId } = useChat();
-
     // Get and validate the conversation ID
     const conversationId = params.conversationId;
     validateConversationId(conversationId);
 
-    useEffect(() => {
-        setSelectedConversationId(conversationId);
-    }, [conversationId, setSelectedConversationId]);
-
     return (
-        <div className={styles.conversation}>
-            <MessageHolder selectedConversationId={params.conversationId} />
-            <Input
-                selectedConversationId={params.conversationId}
-                className={styles.input}
-            />
-        </div>
+        <>
+            <div className={styles.conversation}>
+                <ConversationUpdater conversationId={conversationId} />
+                <MessageHolder selectedConversationId={params.conversationId} />
+                <Input
+                    selectedConversationId={params.conversationId}
+                    className={styles.input}
+                />
+            </div>
+        </>
     );
 }
